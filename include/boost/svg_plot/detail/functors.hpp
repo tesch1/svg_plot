@@ -56,7 +56,7 @@ public:
     template <class T>
     double operator()(T val) const //! To convert a single data value to double.
     {
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
 
        return static_cast<double>(val); //! \return Value that has been converted to double.
     }
@@ -107,7 +107,7 @@ public:
       \return value including uncertainty and other information.
     */
     {
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<T, double>::value, "Uncertain types must be that can be converted to double!");
+      static_assert(std::is_constructible<T, double>::value, "Uncertain types must be that can be converted to double!");
       return (Meas)val;
       /*! \return uncertain type (uncertainty, degrees of freedom information, and type meaning undefined).
        Warning C4244: 'argument' : conversion from 'long double' to 'double', possible loss of data.
@@ -137,8 +137,8 @@ public:
     template <typename T, typename U>
     std::pair<double, double> operator()(const std::pair<T, U>& a) const
     { //! Assumes that a conversion from double yields just the value component of the uncertain value.
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<U, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<U, double>::value, "Uncertain types must be convertible to double!");
       return std::pair<double, double>(static_cast<double>(a.first), static_cast<double>(a.second));
     }
 
@@ -173,8 +173,8 @@ public:
     {  //!< Convert a pair of X and Y uncertain type values to a pair of doubles.
        //! \return pair of uncs.
       // Cast to double so that can use with float, long double and UDTs.
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<U, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<U, double>::value, "Uncertain types must be convertible to double!");
        return std::pair<unc<correlated>, unc<correlated> >(
          (unc<correlated>)(a.first), (unc<correlated>)(static_cast<double>(a.second))
          );
@@ -183,7 +183,7 @@ public:
     template <typename T>    //!< \tparam T Any type that can be converted to double.
     std::pair<unc<correlated>, unc<correlated> > operator()(T a)
     {  //!< Convert a pair of X and Y uncertain type values to a @c std::pair of @c unc.
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
       return std::pair<unc <correlated>, unc<correlated> >(i++, (unc<correlated>)a); //! \return pair of unc.
     }
 }; // class pair_unc_2d_convert
@@ -213,8 +213,8 @@ public:
     {  //!< Convert a pair of X and Y uncertain type values to a pair of doubles.
        //! \return pair of Meas & uncs.
        // Cast to double so that can use with float, long double.
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
-      BOOST_STATIC_ASSERT_MSG(std::is_constructible<U, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<T, double>::value, "Uncertain types must be convertible to double!");
+      static_assert(std::is_constructible<U, double>::value, "Uncertain types must be convertible to double!");
       return std::pair<Meas, unc<correlated> >((Meas)(static_cast<double>(a.first)), (unc<correlated>)(static_cast<double>(a.second)));
     }
 
