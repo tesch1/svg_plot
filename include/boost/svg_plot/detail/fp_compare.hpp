@@ -31,12 +31,12 @@
 
 //  See http://www.boost.org/libs/test for the Boost.Test library home page.
 //  Deliberately removed any treatment of percent!
-
 #ifndef BOOST_TEST_FLOATING_POINT_COMPARISON_HPP
 #define BOOST_TEST_FLOATING_POINT_COMPARISON_HPP
 
-#include <boost/limits.hpp>  // for std::numeric_limits
-#include <boost/math/tools/precision.hpp> // for max_value, min_value & epsilon for floating_point type;
+//#include <boost/limits.hpp>  // for std::numeric_limits
+//#include <boost/math/tools/precision.hpp> // for max_value, min_value & epsilon for floating_point type;
+#include <limits>
 
 // Check if two floating-point values are close within a chosen tolerance.
 //template<typename FPT> class close_to;
@@ -88,13 +88,13 @@ safe_fpt_division(FPT f1, FPT f2)
 { //! Safe from under and overflow.
   //! Both f1 and f2 must be unsigned here.
 
-  if( (f2 < static_cast<FPT>(1))  && (f1 > f2 * boost::math::tools::max_value<FPT>()) )
+  if( (f2 < static_cast<FPT>(1))  && (f1 > f2 * std::numeric_limits<FPT>::max()) )
   { // Avoid overflow.
-    return boost::math::tools::max_value<FPT>();
+    return std::numeric_limits<FPT>::max();
   }
 
   if( (f1 == static_cast<FPT>(0))
-    || ((f2 > static_cast<FPT>(1)) && (f1 < f2 * boost::math::tools::min_value<FPT>()) )
+      || ((f2 > static_cast<FPT>(1)) && (f1 < f2 * std::numeric_limits<FPT>::min()) )
     )
   {  // Avoid underflow.
     return static_cast<FPT>(0);
@@ -118,12 +118,12 @@ public:
   { //! Constructor for fraction tolerance and strength of comparison.
     //! Checks that tolerance isn't negative - which does not make sense,
     //! and can be assumed to be a programmer error?
-    BOOST_ASSERT(tolerance >= static_cast<T>(0));
+    assert(tolerance >= static_cast<T>(0));
   }
 
   close_to()
   :
-  fraction_tolerance_(2 * boost::math::tools::epsilon<FPT>()),
+    fraction_tolerance_(2 * std::numeric_limits<FPT>::epsilon()),
     strong_or_weak_(FPC_STRONG)
   { //! Default constructor is strong comparison to twice numeric_limits<double>::epsilon().
   }
@@ -193,7 +193,7 @@ public:
 
   smallest()
   :
-  smallest_(2 * boost::math::tools::min_value<FPT>())
+    smallest_(2 * std::numeric_limits<FPT>::min())
   { /*!< Default Constructor.
       Default smallest_ =  2. * boost::math::tools::min_value<double>();
       multiplier m = 2 (must be integer or static_cast<FPT>())

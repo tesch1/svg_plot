@@ -19,7 +19,7 @@
 #ifndef BOOST_SVG_NUMERIC_LIMITS_HANDLING_DETAIL_HPP
 #define BOOST_SVG_NUMERIC_LIMITS_HANDLING_DETAIL_HPP
 
-#include <boost/math/special_functions/fpclassify.hpp>
+//#include <boost/math/special_functions/fpclassify.hpp>
 
 #include <boost/quan/unc.hpp>
 #include <boost/quan/meas.hpp>

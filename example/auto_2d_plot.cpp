@@ -34,9 +34,7 @@
 
 #include <limits>
   using std::numeric_limits;
-
-#include <boost/math/special_functions.hpp>
-  //using boost::math::isfinite;
+  using std::isfinite;
 
   // Getting the max and min of x and y data points.
 template <typename T> // T an STL container: array, vector ...
@@ -47,7 +45,7 @@ void s(T& container, // Container Data series to plot - entire container.
                )
 {
   typedef typename T::const_iterator iter;
-  std::pair<iter, iter> result = boost::minmax_element(container.begin(), container.end());
+  std::pair<iter, iter> result = std::minmax_element(container.begin(), container.end());
   // minmax_element is efficient for maps because can use knowledge of being sorted,
   // BUT only if it can be assumed that no values are 'at limits',
   // infinity, NaN, max_value, min_value, denorm_min.

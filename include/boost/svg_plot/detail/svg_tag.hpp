@@ -22,7 +22,7 @@
 
 #include <boost/ptr_container/ptr_container.hpp>
 // using boost::vec_ptr;
-#include <boost/array.hpp>
+#include <array>
 // using boost::array;
 
 #include "../svg_style.hpp"

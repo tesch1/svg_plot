@@ -30,10 +30,10 @@
 #include <boost/svg_plot/detail/fp_compare.hpp> // is_small & is_close
 #include <boost/quan/meas.hpp> // for value_of.
 
-#include <boost/math/special_functions/fpclassify.hpp>
+//#include <boost/math/special_functions/fpclassify.hpp>
 // for template <class FPT> bool boost::math::isfinite(FPT t);
-#include <boost/algorithm/minmax_element.hpp>
- using boost::minmax_element;
+#include <algorithm>
+using std::minmax_element;
  // minmax_element finds both min and max elements more efficiently than separately.
 
 #include <cmath> // using std::fabs, std::pow, std::ceil, std::log10
@@ -476,7 +476,7 @@ void scale_axis(
     // BUT only if it can be assumed that no values are 'at limits',
     // infinity, NaN, max_value, min_value, denorm_min.
     // Otherwise it is necessary to inspect all values individually.
-    std::pair<Iter, Iter> result = boost::minmax_element(begin, end); // min & max
+    std::pair<Iter, Iter> result = std::minmax_element(begin, end); // min & max
     // scale_axis (not check_limits version) forward declaration to ensure compiler finds right version.
      x_min = *(result.first);
      x_max = *(result.second);
@@ -532,7 +532,7 @@ void scale_axis(
   if (!check_limits)
   {
     //std::pair<T::iterator, T::iterator> result = boost::minmax_element(container.begin(), container.end());
-    std::pair<typename C::const_iterator, typename C::const_iterator> result = boost::minmax_element(container.begin(), container.end());
+    std::pair<typename C::const_iterator, typename C::const_iterator> result = std::minmax_element(container.begin(), container.end());
     // minmax_element is efficient because can use knowledge of being sorted,
     // BUT only if it can be assumed that no values are 'at limits',
     // infinity, NaN, max_value, min_value, denorm_min.
@@ -623,7 +623,7 @@ void scale_axis(
     // And also sadly it doesn't work right - Y minimum is wrong!  // TODO ??
 
     std::pair<typename C::const_iterator, typename C::const_iterator> result
-      = boost::minmax_element(container.begin(), container.end());
+      = std::minmax_element(container.begin(), container.end());
     std::pair<double, double> px = values_of(*result.first); // X min & X max.
     std::pair<double, double> py = values_of(*result.second); // Y min & Y max.
     x_min = px.first;
@@ -798,7 +798,7 @@ void scale_axis_impl(
     throw std::domain_error("tight not in range 0 to 1 !");
   }
 
-  using boost::math::isfinite;
+  using std::isfinite;
   if(!(isfinite)(min_value))
   {
     throw std::domain_error("min_value not finite!");
@@ -999,7 +999,7 @@ template <class T>
 std::pair<double, double> range_mx(const T& container)
 {
   std::pair<typename T::const_iterator, typename T::const_iterator> result
-    = boost::minmax_element(container.begin(), container.end());
+    = std::minmax_element(container.begin(), container.end());
   std::pair<double, double> minmax;
   minmax.first = *result.first;
   minmax.second = *result.second;
