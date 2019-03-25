@@ -92,3 +92,12 @@ if (ETAGS)
     )
   add_custom_target (etags DEPENDS tags)
 endif (ETAGS)
+
+#
+# Generate Doxygen documentation
+#
+configure_file (${CMAKE_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_BINARY_DIR}/doc/Doxyfile)
+add_custom_target (docs
+  COMMAND doxygen ${CMAKE_BINARY_DIR}/doc/Doxyfile
+  # COMMAND open doc/html/index.html
+  )
