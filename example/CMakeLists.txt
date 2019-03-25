@@ -67,4 +67,8 @@ foreach (BASE
   add_executable (${BASE} ${BASE}.cpp)
   add_dependencies (${BASE} quanX)
 
+  if (ENABLE_TESTING)
+    add_test (NAME ${BASE} COMMAND ${BASE})
+  endif (ENABLE_TESTING)
+    
 endforeach()

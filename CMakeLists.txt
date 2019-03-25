@@ -26,12 +26,14 @@ include (ExternalProject)
 # boost
 if (ENABLE_TESTING)
   # rely on someone else to build the boost testing libraries
-  find_package (Boost REQUIRED)
+  enable_testing()
+  find_package (Boost REQUIRED COMPONENTS unit_test_framework)
+  add_definitions (-DBOOST_TEST_DYN_LINK)
 else (ENABLE_TESTING)
   find_package (Boost)
 endif (ENABLE_TESTING)
 
-if (NOT FOUND_Boost)
+if (NOT Boost_FOUND)
   ExternalProject_Add (boostX
     PREFIX boostX
     URL "https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2"
@@ -50,7 +52,7 @@ if (NOT FOUND_Boost)
   ExternalProject_Get_Property (boostX source_dir)
   set (Boost_INCLUDE_DIRS "${source_dir}")
   set (BOOST_ROOT "${source_dir}")
-endif (NOT FOUND_Boost)
+endif (NOT Boost_FOUND)
 
 message ("Boost: ${Boost_INCLUDE_DIRS}")
 include_directories (${Boost_INCLUDE_DIRS})
@@ -70,7 +72,9 @@ ExternalProject_Add (quanX
   )
 ExternalProject_Get_Property (quanX source_dir)
 include_directories ("${source_dir}/include")
-add_dependencies (quanX boostX)
+if (NOT Boost_FOUND)
+  add_dependencies (quanX boostX)
+endif (NOT Boost_FOUND)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # 
