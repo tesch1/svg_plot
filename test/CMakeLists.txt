@@ -1,8 +1,7 @@
 
+enable_testing()
+
 find_package (Boost REQUIRED COMPONENTS unit_test_framework )
-message ("Boost: ${Boost_INCLUDE_DIRS}")
-include_directories (${CMAKE_SOURCE_DIR}/include)
-include_directories (${Boost_INCLUDE_DIRS})
 
 foreach (BASE 
     1d_color_consistency
@@ -15,4 +14,5 @@ foreach (BASE
   add_executable (${BASE} ${BASE}.cpp)
   target_link_libraries (${BASE} ${Boost_LIBRARIES})
   target_compile_definitions (${BASE} PUBLIC -DBOOST_TEST_MAIN)
+  add_test (NAME ${BASE} COMMAND ${BASE})
 endforeach()
