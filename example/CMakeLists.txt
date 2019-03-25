@@ -61,5 +61,6 @@ foreach (BASE
     svg_test
     )
   add_executable (${BASE} ${BASE}.cpp)
+  add_dependencies (${BASE} quanX)
 
 endforeach()
